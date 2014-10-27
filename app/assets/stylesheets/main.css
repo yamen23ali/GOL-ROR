@@ -1,0 +1,19 @@
+.controlCell{
+    border: 0px;
+    font-weight:bold;
+    background-color:#D1CCCC;
+}
+#info{
+    margin-left:15px;
+    background-color:#F5F3F3;
+}
+.rules{
+    margin-left:25px;
+}
+body{
+      background: rgb(239, 248, 223);
+}
+.panel{
+    border-radius: 6px;
+
+}

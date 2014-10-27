@@ -1,0 +1,110 @@
+<script type="text/javascript">
+            var liveCells;
+            var space;
+            $(document).ready(function(){
+   				space=new SpaceCanvas('myCanvas','#parent',900,900,10);
+   				space.draw();
+	
+                $('#start').click(function(){
+
+                	space.fillClear(space.liveCells,2);
+		            space.liveCells=new Array();
+
+		            var frames=$('#genTime').val();
+
+		            $.ajax({
+           				url : '../game/generate',
+			           type : 'POST',
+			           data: {frames:frames},   
+			           success : function(json) {
+
+			           		for(var item in json){
+ 							  space.liveCells[space.liveCells.length]={x:json[item][1],y:json[item][0]};
+ 							}
+ 							space.fillClear(space.liveCells,1);
+		
+			            },
+			        });
+                });
+	
+                $('#stop').click(function(){
+                    //controller.stop();
+                });
+	
+                $('#cellColor').change(function(){
+                    controller.cellColor=$(this).val();
+                });
+	
+            });
+</script>
+    <body>
+        <table width="100%" height="100%" id="parent" border="0">
+            <tr>
+            	<td align="center" colspan="2">
+                	<input type="image" src="/assets/game_of_life.png" alt="bg" id="bg" width="350">
+             	</td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    <!--============= Inputs =============-->
+                    <table class="panel" width="100%" height="80%" border="2">
+                        <tr>
+                            <td align="center" class="controlCell">
+                                Frames Number : <br/>
+                                <input type="text" id="genTime" value="100"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="controlCell">
+                                Cell Color :<br/>
+                                <input class="color {pickerClosable:true}" value="66ff00" id="cellColor">
+                            </td>
+                        </tr>
+
+                    </table>
+                    <!--============= Inputs =============-->
+
+                    <!--============= Controls Row =============-->
+                    <table class="panel" width="100%" height="20%" border="2">
+                        <tr>
+                            <!--==========================-->
+                            <td  align="center"  class="controlCell">
+                                <input type="image" src="/assets/start.png" alt="Start" height="42" width="42" id="start">
+                            </td>
+                        </tr>
+                    </table>
+                    <!--============= Controls Row =============-->
+                </td>
+                <!--==========================-->
+                <td width="80%" align="center">
+                    <canvas id="myCanvas" width="900px"  height="500px" style="border:2px solid #000000;" class="panel"> </canvas> 
+                </td>
+            </tr>
+
+        </table>
+
+        <hr/>	
+
+        <h3> About : </h3>
+        <div id="info">
+            <p> - The universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells, each of which is in one of 		
+                two possible states, live or dead. 
+            </p>
+            <p>		
+                - Every cell interacts with its eight neighbors, which are the cells that are directly horizontally, 
+                vertically, or diagonally adjacent. At each step in time, the following transitions occur:
+            <li class="rules">Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.</li>
+            <li class="rules">Any live cell with more than three live neighbours dies, as if by overcrowding.</li>
+            <li class="rules">Any live cell with two or three live neighbours lives on to the next generation.</li>
+            <li class="rules">Any dead cell with exactly three live neighbours becomes a live cell.</li>
+        </p>
+        <p>	- The initial pattern constitutes the seed of the system. </p>
+        <p> - Births and deaths happen simultaneously, The rules continue to be applied repeatedly to create further generations.</p>
+    </div>
+	<hr>
+	<center>Copyright &copy; 2014 by Yameni Ali.
+               All Rights Reserved.
+</center>
+</body>
+
+</html>
